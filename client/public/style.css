@@ -1,0 +1,138 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 5px;
+  width: 100%; 
+  background-attachment: fixed; 
+  background-color: #e5e5e5;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: small;
+  height: 50px;
+  line-height: 40px; /* Vertically center the text there */
+  background-color: #242830;
+}
+
+.footer a {
+  color: #9199a1;
+  
+}
+
+.footer a:hover {
+  color: #e5e5e5;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+
+#content {
+  margin-top: 90px;
+  margin-bottom: 50px;
+  
+}
+
+.form-signin {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05)
+}
+
+.form-profile {
+  max-width: 600px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  margin-bottom: 80px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: 0 1px 10px 5px rgba(0,0,0,0.05)
+}
+
+.span-with-margin {
+  margin-right: 5px;
+}
+
+.link-without-underline {
+  text-decoration: none !important;
+}
+
+.post {
+  max-width: 800px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.text-grey {
+  color: #9199a1 !important;
+}
+
+a {
+  color: #9199a1;
+}
+
+a:hover {
+  color: #242830;
+  opacity: 1;
+  text-decoration: none;
+  transition: 1s;
+}
+
+.bg-inverse{
+  background-color: #242830 !important;
+} 
+
+.badge-info {
+  background-color: #3dc9b3;
+}
+
+.card{
+  max-width: 90%;
+  min-height: 50vh;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  background-color: #e5e5e5;
+  opacity: 0.25;
+  box-shadow: 0.5px 0.5px 5px 0px #e5e5e5;
+}
+
+.card:hover {
+  box-shadow: 0.5px 0.5px 20px 0px #9199a1;
+  transition: 1s;
+}
+
+.sign-in{
+  padding: 10px;
+  font-size:medium;
+}
+
+.sign-up{
+  padding: 10px;
+  font-size: medium;
+}
+
+.sign-in:hover {
+  color: #e5e5e5;
+}
+
+.sign-up:hover{
+  color: #e5e5e5;
+}
