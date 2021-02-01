@@ -32,6 +32,7 @@ body {
   color: #e5e5e5;
 }
 
+
 /* Custom page CSS
 -------------------------------------------------- */
 
@@ -112,6 +113,8 @@ a:hover {
   background-color: #e5e5e5;
   opacity: 0.25;
   box-shadow: 0.5px 0.5px 5px 0px #e5e5e5;
+  border: none;
+
 }
 
 .card:hover {
@@ -136,3 +139,35 @@ a:hover {
 .sign-up:hover{
   color: #e5e5e5;
 }
+
+
+.cell-1{
+  background-color: #53c68c !important;
+}
+
+.cell-2{
+  background-color: #666699 !important;
+
+}
+
+.cell-3{
+  background-color: #ff8533 !important;
+
+}
+
+.cell-1:hover {
+  box-shadow: 0.5px 0.5px 1px 1000px #53c68c;
+  
+}
+
+.cell-2:hover {
+  box-shadow: 0.5px 0.5px 1px 1000px #666699;
+}
+
+
+.cell-3:hover {
+  box-shadow: 0.5px 0.5px 1px 1000px #ff8533;
+}
+
+
+

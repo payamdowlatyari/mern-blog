@@ -12,13 +12,13 @@ export default () => (
 
     { /*Example row of columns*/}
     <div className="row text-justify">
-      <div className="col-md-4 card">
+      <div className="col-md-4 card cell-1">
 
       </div>
-      <div className="col-md-4 card">
+      <div className="col-md-4 card cell-2">
 
       </div>
-      <div className="col-md-4 card">
+      <div className="col-md-4 card cell-3">
 
       </div>
     </div>
