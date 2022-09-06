@@ -9,7 +9,7 @@ body {
   margin-bottom: 5px;
   width: 100%; 
   background-attachment: fixed; 
-  background-color: #e5e5e5;
+  background-color: #ffffff;
 }
 
 .footer {
@@ -37,19 +37,18 @@ body {
 -------------------------------------------------- */
 
 #content {
-  margin-top: 90px;
+  margin-top: 80px;
   margin-bottom: 50px;
   
 }
 
 .form-signin {
-  max-width: 300px;
+  max-width: 500px;
   padding: 19px 29px 29px;
   margin: 0 auto 20px;
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
+  background-color: #edf2f4;
+  border: none;
   border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05)
 }
 
 .form-profile {
@@ -57,10 +56,18 @@ body {
   padding: 19px 29px 29px;
   margin: 0 auto 20px;
   margin-bottom: 80px;
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
+  background-color: #edf2f4;
+  border: none;
   border-radius: 5px;
   box-shadow: 0 1px 10px 5px rgba(0,0,0,0.05)
+}
+
+.text-below-form{
+  text-align: center;
+}
+
+.sign-in-up{
+  color: #118ab2;
 }
 
 .span-with-margin {
@@ -86,22 +93,21 @@ body {
 }
 
 a {
-  color: #9199a1;
+  color: #242830;
 }
 
 a:hover {
   color: #242830;
-  opacity: 1;
   text-decoration: none;
   transition: 1s;
 }
 
 .bg-inverse{
-  background-color: #242830 !important;
+  background-color: #242830 ;
 } 
 
 .badge-info {
-  background-color: #3dc9b3;
+  background-color: #ef476f;
 }
 
 .card{
@@ -110,15 +116,13 @@ a:hover {
   margin: 0 auto;
   margin-bottom: 1em;
   margin-top: 1em;
-  background-color: #e5e5e5;
-  opacity: 0.25;
-  box-shadow: 0.5px 0.5px 5px 0px #e5e5e5;
+  color: #242830;
+  opacity: 0.5;
   border: none;
 
 }
 
 .card:hover {
-  box-shadow: 0.5px 0.5px 20px 0px #9199a1;
   transition: 1s;
 }
 
@@ -140,34 +144,52 @@ a:hover {
   color: #e5e5e5;
 }
 
+.cel-title {
+  font-size: 2.5em;
+  margin: auto;
+  padding: 1em;
+  color: #242830;
+}
+
 
 .cell-1{
-  background-color: #53c68c !important;
+  background-color: #84a59d ;
+  
+  transform: scale(0.9);
 }
 
 .cell-2{
-  background-color: #666699 !important;
-
+  background-color: #6d597a !important;
+  transform: scale(0.9);
 }
 
 .cell-3{
-  background-color: #ff8533 !important;
-
+  background-color: #118ab2 !important;
+  transform: scale(0.9);
 }
 
+
 .cell-1:hover {
-  box-shadow: 0.5px 0.5px 1px 1000px #53c68c;
+  animation: myAnim 1s ease 0s 1 normal forwards;
   
 }
 
 .cell-2:hover {
-  box-shadow: 0.5px 0.5px 1px 1000px #666699;
+  animation: myAnim 1s ease 0s 1 normal forwards;
 }
 
 
 .cell-3:hover {
-  box-shadow: 0.5px 0.5px 1px 1000px #ff8533;
+  animation: myAnim 1s ease 0s 1 normal forwards;
+
 }
 
+@keyframes myAnim {
+	0% {
+		transform: scale(0.9);
+	}
 
-
+	100% {
+		transform: scale(1);
+	}
+}

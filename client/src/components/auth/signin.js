@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { signinUser } from '../../actions';
+import { Link } from 'react-router-dom';
 
 class Signin extends Component {
 
@@ -12,7 +13,7 @@ class Signin extends Component {
   }
 
   handleFormSubmit({ email, password }) {
-    // console.log(email, password);
+    console.log(email, password);
     // need to do something to log user in
     this.props.signinUser({ email, password }, (path) => {  // callback 1: history push
       this.props.history.push(path);
@@ -62,12 +63,13 @@ class Signin extends Component {
       <div>
         {this.renderAlert()}
         <form className="form-signin" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <h3>Sign In</h3>
+          <h3>Login</h3>
           <hr />
           <Field name="email" component={this.renderField} type="email" label="Email" />
           <Field name="password" component={this.renderField} type="password" label="Password" />
-          <button action="submit" className="btn btn-primary">Sign In</button>
+          <button action="submit" className="btn btn-primary btn-block">Sign In</button>
         </form>
+        <p className='text-below-form'> Don't have an account?<Link className="sign-in-up" to="/signup"> Sign up here</Link></p>
       </div>
     );
   }

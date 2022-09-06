@@ -2,6 +2,7 @@ let _ = require('lodash');
 
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Like = require('../models/like');
 
 /**
  * ------- Post APIs -------
@@ -357,5 +358,72 @@ exports.fetchCommentsByPostId = function(req, res, next) {
         });
       }
       res.json(comments);
+    });
+};
+
+
+
+/**
+ * Create a new comment (post ID and user ID are both needed)
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+ exports.createLike = function(req, res, next) {
+
+  // Require auth
+  const user = req.user;
+
+  if (!user) {
+    return res.status(422).json({
+      message: 'You must sign in before you can like a post.'
+    });
+  }
+
+  // Get post ID
+  const postId = req.params.postId;
+
+  // Create a new like
+  const like = new Like({
+    authorId: user._id,
+    postId: postId,
+    time: Date.now(),
+  });
+
+  // Save the like
+  like.save(function(err, like) {  // callback function
+    if (err) {
+      return next(err);
+    }
+    res.json(like);  // return the created like
+  });
+};
+
+/**
+ * Fetch likes for a specific blog post (post ID is needed)
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.fetchLikesByPostId = function(req, res, next) {
+  Like
+    .find({
+      postId: req.params.postId
+    })
+    .select({})
+    .limit(100)
+    .sort({
+      time: 1
+    })
+    .exec(function(err, likes) {
+      if (err) {
+        console.log(err);
+        return res.status(422).json({
+          message: 'Error! Could not retrieve likes.'
+        });
+      }
+      res.json(likes);
     });
 };

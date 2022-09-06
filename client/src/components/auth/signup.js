@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';  // read new version of ReduxForm
 import { signupUser } from '../../actions';
+import { Link } from 'react-router-dom';
 
 class Signup extends Component {
 
@@ -58,8 +59,10 @@ class Signup extends Component {
           <Field name="email" component={this.renderField} type="email" label="Email"/>
           <Field name="password" component={this.renderField} type="password" label="Password"/>
           <Field name="passwordConfirm" component={this.renderField} type="password" label="Confirm Password"/>
-          <button type="submit" className="btn btn-primary">Sign Up</button>
+          <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
         </form>
+        <p className='text-below-form'> Already have an account?<Link className="sign-in-up" to="/signin"> Login now</Link></p>
+
       </div>
     );
   }
@@ -71,7 +74,7 @@ function validate(formProps) {
 
   const errors = {};
 
-  /*
+ 
   if (!formProps.email) {
     errors.email = 'Please enter an email';
   }
@@ -83,7 +86,7 @@ function validate(formProps) {
   if (!formProps.passwordConfirm) {
     errors.passwordConfirm = 'Please enter an password confirmation';
   }
-  */
+
 
   if (formProps.password !== formProps.passwordConfirm) {
     errors.passwordConfirm = 'Password must match!';

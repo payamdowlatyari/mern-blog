@@ -34,7 +34,7 @@ class Header extends Component {
             <Link className="sign-up" to="/signup">Sign Up</Link>
           </li>
           <li className="nav-item" key={2}>
-            <Link className="sign-in" to="/signin">Sign In</Link>
+            <Link className="sign-in" to="/signin">Login</Link>
           </li>
         </ul>
       );
@@ -48,18 +48,16 @@ class Header extends Component {
           <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
+          
           <Link className="navbar-brand" to="/">My Blog</Link>
 
           <div className="collapse navbar-collapse" id="navbarsExampleContainer">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/posts">Posts</Link>
-              </li>
-            </ul>
-            {/* <form className="form-inline my-2 my-md-0">
-              <input className="form-control mr-sm-2" type="text" placeholder="Search Post" />
-              <button className="btn btn-outline-secondary" type="submit">Search</button>
-            </form> */}
+          <form className="form-inline my-2 my-md-0">
+              <input className="form-control mr-sm-2" type="text" placeholder="Type here..." />
+              <button className="btn btn-secondary" type="submit">
+                Search
+              </button>
+            </form>
             <div className="ml-auto">
               {this.renderLinks()}
             </div>
@@ -79,8 +77,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, { verifyJwt, signoutUser })(Header);
 
-
-
 /**
- * todo: A bug need to be fixed - After updating user profile, you navigate to another page (i.e., www.google.com). If you click the go back button on the browser, the username on header is incorrect.
+ * todo: A bug need to be fixed - After updating user profile, you navigate to another page (i.e., www.google.com). 
+ * If you click the go back button on the browser, the username on header is incorrect.
  */

@@ -41,6 +41,7 @@ class Profile extends Component {
         <option />
         <option value="male">Male</option>
         <option value="female">Female</option>
+        <option value="nonbinary">Non-binary</option>
       </select>
     </fieldset>
   );
@@ -97,15 +98,15 @@ class Profile extends Component {
   }
 }
 
-/*
+
 function validate(formProps) {
   console.log(formProps);
 }
-*/
+
 
 Profile = reduxForm({
   form: 'profile',  // name of the form
-  // validate: validate,
+  validate: validate
 })(Profile);
 
 function mapStateToProps(state) {

@@ -18,6 +18,10 @@ import {
 
   CREATE_COMMENT,
   FETCH_COMMENTS,
+
+  CREATE_LIKE,
+  FETCH_LIKES
+
 } from './types';
 
 const ROOT_URL = '/api';
@@ -355,6 +359,58 @@ export function fetchComments(postId) {
     });
   }
 }
+
+
+/**
+ * Blog Likes
+ */
+
+ export function createLike({ like, postId }, clearTextEditor, historyReplace) {
+
+  return function(dispatch) {
+    axios.post(`${ROOT_URL}/likes/${postId}`, { content: like }, {
+      headers: {authorization: localStorage.getItem('token')},  // require auth
+    })
+      .then((response) => {  // If success, clear the text editor
+        dispatch({
+          type: CREATE_LIKE,
+          payload: response.data,
+        });
+        dispatch(reset('like_new'));  // - Clear form value (data)
+        clearTextEditor();  // - Clear text editor (UI)
+        historyReplace(`/posts/${postId}`, null);  // - clear alert message
+      })
+      .catch(({response}) => {  // If fail, render alert message
+
+        // failure reason: un-authenticated
+        if (!response.data.message) {
+          return historyReplace(`/posts/${postId}`, {
+            time: new Date().toLocaleString(),
+            message: 'You must sign in before you can like a post.',
+          });
+        }
+
+        // failure reason: comment is empty
+        historyReplace(`/posts/${postId}`, {
+          time: new Date().toLocaleString(),
+          message: response.data.message,
+        });
+      });
+  }
+}
+
+export function fetchLikes(postId) {
+
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/likes/${postId}`).then((response) => {
+      dispatch({
+        type: FETCH_LIKES,
+        payload: response.data,
+      });
+    });
+  }
+}
+
 
 /**
  * Check authority: Check if the user has the authority to make change to a specific post

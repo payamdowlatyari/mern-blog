@@ -62,6 +62,14 @@ module.exports = function(app) {
   app.post('/api/comments/:postId', requireAuth, Blog.createComment);
 
   app.get('/api/comments/:postId', Blog.fetchCommentsByPostId);
+
+  /**
+   * Blog Like APIs
+   */
+
+   app.post('/api/likes/:postId', requireAuth, Blog.createLike);
+
+   app.get('/api/likes/:postId', Blog.fetchLikesByPostId);
 };
 
 
