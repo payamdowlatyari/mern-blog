@@ -3,6 +3,7 @@ let _ = require('lodash');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Like = require('../models/like');
+const User = require('../models/user');
 
 /**
  * ------- Post APIs -------
@@ -190,6 +191,7 @@ exports.updatePost = function(req, res, next) {
     // Make sure title, categories and content are not empty
     const title = req.body.title;
     const categories = req.body.categories;
+
     const content = req.body.content;
 
     if (!title || !categories || !content) {
@@ -203,6 +205,7 @@ exports.updatePost = function(req, res, next) {
     post.categories = _.uniq(categories.split(',').map((item) => item.trim())),  // remove leading and trailing spaces, remove duplicate categories;
     post.content = content;
 
+
     // Save user
     post.save(function(err, post) {  // callback function
       if (err) {
@@ -212,6 +215,108 @@ exports.updatePost = function(req, res, next) {
     });
   });
 };
+
+/**
+ * Update a post's likes
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+ exports.updatePostLikes = function(req, res, next) {
+
+  // Require auth
+  const user = req.user;
+
+  // Find the post by post ID
+  Post.findById({
+    _id: req.params.id
+  }, function(err, post) {
+
+    if (err) {
+      console.log(err);
+      return res.status(422).json({
+        message: 'Error! Could not retrieve the post with the given post ID.'
+      });
+    }
+
+    // Check if the post exist
+    if (!post) {
+      return res.status(404).json({
+        message: 'Error! The post with the given ID is not exist.'
+      });
+    }
+  
+
+    console.log(user._id);
+    if (!post.likes.includes(user._id)) 
+        post.likes.push(user._id);
+    else 
+      post.likes.splice(array.indexOf(user._id), 1);
+    
+
+  // Save post
+  post.save(function(err, post) {  // callback function
+    if (err) {
+      return next(err);
+    }
+    res.json(post);  // return the updated post
+  });
+});
+};
+
+
+//@route    PUT api/posts/like/:id
+//@desc     Like a post
+//@access   private
+exports.likePost = async function(req, res, next) {
+
+  try {  
+      const post= await Post.findById(req.params.id);
+      //check if the post is already liked 
+      if(post.likes.filter(like=>like.user.toString()===req.user.id).length > 0){
+          return res.status(400).json({msg: "Post already liked"});
+      }
+
+      post.likes.unshift({user: req.user.id});
+      await post.save();
+
+    // Save post
+    res.json(post.likes);
+
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+  }
+  
+}
+
+//@route    PUT api/posts/unlike/:id
+//@desc     Unlike a post
+//@access   private
+exports.unlikePost = async function(req, res, next) {
+
+  try {   
+      const post= await Post.findById(req.params.id);
+      //check if the post is already liked 
+      if(post.likes.filter(like=>like.user.toString()===req.user.id).length === 0){
+          return res.status(400).json({msg: "Post has not been liked yet"});
+      }
+
+      // get remove index
+      const removeIndex= post.likes.map(like=>like.user.toString()).indexOf(req.user.id);
+
+      post.likes.splice(removeIndex,1);
+
+      await post.save();
+
+      res.json(post.likes);
+
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+  }
+}
 
 /**
  * Delete a post by post ID
@@ -388,6 +493,7 @@ exports.fetchCommentsByPostId = function(req, res, next) {
   const like = new Like({
     authorId: user._id,
     postId: postId,
+    liked: true,
     time: Date.now(),
   });
 
@@ -399,6 +505,51 @@ exports.fetchCommentsByPostId = function(req, res, next) {
     res.json(like);  // return the created like
   });
 };
+
+
+// /**
+//  * Update like status (post ID and user ID are both needed)
+//  *
+//  * @param req
+//  * @param res
+//  * @param next
+//  */
+//  exports.updateLike = function(req, res, next) {
+
+//   // Require auth
+//   const user = req.user;
+
+//   if (!user) {
+//     return res.status(422).json({
+//       message: 'You must sign in before you can like a post.'
+//     });
+//   }
+
+//   // Get like ID
+//   const likeId = req.params.likeId;
+
+//   const status = req.params.liked;
+
+//   status = !status;
+
+//   // Create a new like
+//   const like = new Like({
+//     authorId: user._id,
+//     postId: postId,
+//     liked: status,
+//     time: Date.now(),
+//   });
+
+//   // Save the like
+//   like.save(function(err, like) {  // callback function
+//     if (err) {
+//       return next(err);
+//     }
+//     res.json(like);  // return the created like
+//   });
+// };
+
+
 
 /**
  * Fetch likes for a specific blog post (post ID is needed)

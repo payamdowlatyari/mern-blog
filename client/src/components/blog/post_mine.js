@@ -19,17 +19,16 @@ class PostMine extends Component {
   renderPostSummary(post) {
     return (
       <div key={post._id}>
-        <h3>
-          <Link className="link-without-underline" to={`/posts/${post._id}`}>
-            {post.title}
-          </Link>
-        </h3>
-        {this.renderTags(post.categories)}
-        <span className="span-with-margin text-grey"> • </span>
-        <span className="span-with-margin text-grey">{post.authorName}</span>
-        <span className="span-with-margin text-grey"> • </span>
-        <span className="span-with-margin text-grey">{new Date(post.time).toLocaleString()}</span>
-        <hr />
+        <div className='post-text'>
+             <h3>
+               <Link className="link-without-underline" to={`/posts/${post._id}`}>
+                      {post.title}
+              </Link>
+             </h3>
+          <div className='post-tags'>{this.renderTags(post.categories)}</div>
+          <span className="span-with-margin text-black">{post.authorName}</span>
+          <span className="span-with-margin text-sm-grey">{new Date(post.time).toLocaleString()}</span>
+        </div>
       </div>
     );
   }
@@ -37,7 +36,6 @@ class PostMine extends Component {
   render() {
     return (
       <div className="post">
-        <h2 className="mb-5">My Blog Posts</h2>
         {_.map(this.props.posts, post => {
           return this.renderPostSummary(post);
         })}

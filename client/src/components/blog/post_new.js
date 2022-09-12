@@ -6,9 +6,6 @@ import { createPost } from '../../actions';
 class PostNew extends Component {
 
   handleFormSubmit({ title, categories, content }) {
-    // console.log(title);
-    // console.log(categories);
-    // console.log(content);
     this.props.createPost({ title, categories, content }, (path) => {  // callback 1: history push
       this.props.history.push(path);
     }, (path, state) => {  // callback 2: history replace
@@ -59,12 +56,12 @@ class PostNew extends Component {
     return (
       <div className="post">
         {this.renderAlert()}
-        <h2 className="mb-5">New Post</h2>
+        <h3 className="mb-5">New Post</h3>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="title" component={this.renderInput} type="text" label="Title:" placeholder="Enter your title" required={true} />
-          <Field name="categories" component={this.renderInput} type="text" label="Categories:" placeholder="Enter your categories, use ',' to separate them" required={true} />
+          <Field name="categories" component={this.renderInput} type="text" label="Categories:" placeholder="Enter categories, use ',' to separate" required={true} />
           <Field name="content" component={this.renderTextEditor} label="Content:" />
-          <button action="submit" className="btn btn-primary">Publish</button>
+          <button action="submit" className="btn btn-success btn-block">Publish</button>
         </form>
       </div>
     );

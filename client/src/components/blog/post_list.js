@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../../actions/index';
+import { fetchPosts, updatePostLikes } from '../../actions/index';  
 
 class PostList extends Component {
 
@@ -18,27 +18,22 @@ class PostList extends Component {
 
   renderPostSummary(post) {
     return (
-      <div key={post._id}>
+      <div className='post-links' key={post._id}>
         <h3>
           <Link className="link-without-underline" to={`/posts/${post._id}`}>
             {post.title}
           </Link>
         </h3>
-        {this.renderTags(post.categories)}
-        <span className="span-with-margin text-grey"> • </span>
-        <span className="span-with-margin text-grey">{post.authorName}</span>
-        <span className="span-with-margin text-grey"> • </span>
-        <span className="span-with-margin text-grey">{new Date(post.time).toLocaleString()}</span>
-        <hr />
+          <span className='post-tags'>{this.renderTags(post.categories)}</span>    
+          <span className="span-with-margin text-black">{post.authorName}</span>
+          <span className="span-with-margin text-sm-grey">{new Date(post.time).toLocaleString()}</span>
       </div>
     );
   }
 
   render() {
-    // console.log(this.props.posts);
     return (
       <div className="post">
-        <Link className="btn btn-outline-light mb-5" to={'/posts/new'}>+ Publish A New Post</Link>
         {_.map(this.props.posts, post => {
           return this.renderPostSummary(post);
         })}
@@ -47,8 +42,8 @@ class PostList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { posts: state.posts };
+function mapStateToProps(state, ownProps) {
+  return { posts: state.posts, initialValues: ownProps.post };
 }
 
-export default connect(mapStateToProps, { fetchPosts })(PostList);
+export default connect(mapStateToProps, { updatePostLikes, fetchPosts })(PostList);

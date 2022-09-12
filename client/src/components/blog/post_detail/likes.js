@@ -9,14 +9,14 @@ class Likes extends Component {
     this.props.fetchLikes(this.props.postId);
   }
 
+
   renderLike(like) {
     return (
       <div key={like._id}>
         <div className="text-justify" />
         <div>
-          <span className="span-with-margin f6 text-grey"> • </span>
+          <span className="span-with-margin f6 text-grey">{like.liked}</span>
         </div>
-        <hr />
       </div>
     );
   }
@@ -24,7 +24,6 @@ class Likes extends Component {
   render() {
     return (
       <div>
-        <h3 className="mt-5 mb-4">Likes</h3>
         {_.map(this.props.likes, like => {
           return this.renderLike(like);
         })}

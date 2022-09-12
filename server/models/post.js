@@ -4,11 +4,12 @@ const Schema = mongoose.Schema;
 // Define our model
 const postSchema = new Schema({
   title: String,
-  categories: [String],
+  categories:  {type: Array, "default" : []},
+  likes: {type: Array, "default" : []},
   content: String,  // html
   authorId: String,
   authorName: String,
-  time: Date,
+  time: Date
 });
 
 // Create the model class

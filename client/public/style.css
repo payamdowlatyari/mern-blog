@@ -9,7 +9,11 @@ body {
   margin-bottom: 5px;
   width: 100%; 
   background-attachment: fixed; 
-  background-color: #ffffff;
+  background-color: #2f6690;
+}
+
+h5{
+  font-size: medium;
 }
 
 .footer {
@@ -18,7 +22,7 @@ body {
   width: 100%;
   text-align: center;
   font-size: small;
-  height: 50px;
+  height: 40px;
   line-height: 40px; /* Vertically center the text there */
   background-color: #242830;
 }
@@ -52,14 +56,26 @@ body {
 }
 
 .form-profile {
-  max-width: 600px;
+  max-width: 500px;
   padding: 19px 29px 29px;
   margin: 0 auto 20px;
   margin-bottom: 80px;
   background-color: #edf2f4;
   border: none;
   border-radius: 5px;
-  box-shadow: 0 1px 10px 5px rgba(0,0,0,0.05)
+}
+
+.nav-link{
+  color: #9199a1;
+  font-size: small;
+}
+
+.nav-link:hover{
+  color: #ffffff;
+}
+
+.dropdown-item{
+  font-size: small;
 }
 
 .text-below-form{
@@ -76,12 +92,16 @@ body {
 
 .link-without-underline {
   text-decoration: none !important;
+  font-size: x-large;
+  color: #457b9d;
 }
 
 .post {
   max-width: 800px;
   padding: 19px 29px 29px;
   margin: 0 auto 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
 }
 
 .f6 {
@@ -90,14 +110,35 @@ body {
 
 .text-grey {
   color: #9199a1 !important;
+  font-size: small;
+}
+
+.text-sm-grey {
+  color: #9199a1;
+  font-size: x-small;
+}
+
+.text-black{
+  color: #293241;
+  font-size: small;
+}
+
+.text-sm-black{
+  color: #293241;
+  font-size: x-small;
+}
+
+.text-blue{
+  color: #118ab2;
+  font-size: small;
 }
 
 a {
   color: #242830;
+  opacity: 0.9;
 }
 
 a:hover {
-  color: #242830;
   text-decoration: none;
   transition: 1s;
 }
@@ -107,9 +148,17 @@ a:hover {
 } 
 
 .badge-info {
-  background-color: #ef476f;
+  background-color: #637081;
 }
 
+.btn-outline-secondary{
+  border: none;
+}
+
+.new-post{
+  margin: auto;
+  font-size: small;
+}
 .card{
   max-width: 90%;
   min-height: 50vh;
@@ -119,7 +168,6 @@ a:hover {
   color: #242830;
   opacity: 0.5;
   border: none;
-
 }
 
 .card:hover {
@@ -151,45 +199,82 @@ a:hover {
   color: #242830;
 }
 
-
-.cell-1{
-  background-color: #84a59d ;
-  
-  transform: scale(0.9);
+.post-links{
+  display: block;
+  padding: 00.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: #edf2fb;
+  border-radius: 5px;
 }
 
-.cell-2{
-  background-color: #6d597a !important;
-  transform: scale(0.9);
+.post-text{
+  padding: 00.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 00.5em;
+  margin-bottom: 00.5em;
+  background-color: #edf2fb;
+  border-radius: 5px;
 }
 
-.cell-3{
-  background-color: #118ab2 !important;
-  transform: scale(0.9);
+.post-details{
+  padding-top: 00.5em;
+}
+
+.comment-text-box{
+  padding: 00.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin: 00.5em;
+  background-color: #edf2fb;
+  border-radius: 5px;
 }
 
 
-.cell-1:hover {
-  animation: myAnim 1s ease 0s 1 normal forwards;
-  
+.post-tags{
+  font-size: medium;
+  padding-bottom: 0.5em;
+  padding-right: 00.5em;
 }
 
-.cell-2:hover {
-  animation: myAnim 1s ease 0s 1 normal forwards;
+.edit-delete-btns{
+  text-align: right;
 }
 
-
-.cell-3:hover {
-  animation: myAnim 1s ease 0s 1 normal forwards;
-
+.btn-edit{
+  border: none;
+  background-color: transparent;
+  color: #25a18e;
+  cursor: pointer;
 }
 
-@keyframes myAnim {
-	0% {
-		transform: scale(0.9);
-	}
-
-	100% {
-		transform: scale(1);
-	}
+.btn-edit:hover{
+  transition: 0.3s;
+  transform: scale(1.1);
 }
+
+.btn-delete{
+  border: none;
+  background-color: transparent;
+  color: #ea3546;
+  cursor: pointer;
+}
+
+.btn-delete:hover{
+  transition: 0.3s;
+  transform: scale(1.1);
+}
+
+.btn-like{
+  color: #118ab2;
+  cursor: pointer;
+}
+
+.btn-like:hover{
+  transition: 0.5s;
+  color: #003554;
+}
+

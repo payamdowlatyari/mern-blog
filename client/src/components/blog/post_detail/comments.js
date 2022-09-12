@@ -12,13 +12,16 @@ class Comments extends Component {
   renderComment(comment) {
     return (
       <div key={comment._id}>
-        <div className="text-justify" dangerouslySetInnerHTML={{ __html: comment.content }} />
-        <div>
-          <span className="span-with-margin f6 text-grey">{comment.authorName}</span>
-          <span className="span-with-margin f6 text-grey"> • </span>
-          <span className="span-with-margin f6 text-grey">{new Date(comment.time).toLocaleString()}</span>
+        <div className='comment-text-box'>
+          <div className='comment-text text-black'>
+          <div className="text-justify" dangerouslySetInnerHTML={{ __html: comment.content }} />
+          </div>
+          
+          <div>
+            <span className="span-with-margin f6 text-grey">{comment.authorName}</span>
+            <span className="span-with-margin f6 text-sm-grey">{new Date(comment.time).toLocaleString()}</span>
+          </div>
         </div>
-        <hr />
       </div>
     );
   }
@@ -26,7 +29,7 @@ class Comments extends Component {
   render() {
     return (
       <div>
-        <h3 className="mt-5 mb-4">Comments</h3>
+        <h5 className="mt-5 mb-4">Comments</h5>
         {_.map(this.props.comments, comment => {
           return this.renderComment(comment);
         })}

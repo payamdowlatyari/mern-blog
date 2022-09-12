@@ -41,7 +41,7 @@ class CommentNew extends Component {
 
     return (
       <div>
-        <h3 className="mt-5 mb-4">New Comment</h3>
+        <h5 className="mt-5 mb-4">New Comment</h5>
         {this.renderAlert()}
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="comment" component={this.renderTextEditor} />

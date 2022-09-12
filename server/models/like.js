@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const likeSchema = new Schema({
   authorId: String,
   postId: String,
-  time: Date,
+  liked: Boolean,
+  time: Date
 });
 
 // Create the model class

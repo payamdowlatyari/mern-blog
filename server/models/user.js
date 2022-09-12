@@ -8,13 +8,15 @@ const userSchema = new Schema({
   password: String,
   firstName: String,
   lastName: String,
+  access: {type: Number, default: 0}, // admin = 1 TODO
 
   birthday: { type: String, default: '' },
-  sex: { type: String, default: '' },  // secrecy/male/female
+  sex: { type: String, default: '' },  
   phone: { type: String, default: '' },
   address: { type: String, default: '' },
   occupation: { type: String, default: '' },
   description: { type: String, default: '' },
+
 });
 
 // On Save Hook, encrypt the password

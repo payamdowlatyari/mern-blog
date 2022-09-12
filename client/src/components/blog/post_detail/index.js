@@ -5,16 +5,25 @@ import NoMatch from '../../nomatch';
 import PostBody from './post_body';
 import Comments from './comments';
 import CommentNew from './comment_new';
+import Likes from './likes';
+import LikeNew from './like_new';
+
 import PostEdit from './post_edit';
 
-import { fetchPost, checkAuthority, deletePost } from '../../../actions';
+import { fetchPost, checkAuthority, deletePost, updatePostLikes } from '../../../actions';
+import { FaTrashAlt } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+
 
 class PostDetail extends Component {
 
   constructor(props) {
     super(props);
     this.state = {  // component state: being read or being edited
-      beingEdit: false
+      beingEdit: false,
+      liked: false, 
+      count: 0 
     };
   }
 
@@ -25,12 +34,17 @@ class PostDetail extends Component {
       beingEdit: false
     });
 
+    this.setState({
+      liked: false
+    });
+
     // Get post id
     const { id } = this.props.match.params;
 
     // Fetch post detail
     if (!this.props.post) {
       this.props.fetchPost(id);
+      
     }
 
     // Check whether current authenticated user has authority to make change to this post
@@ -43,6 +57,12 @@ class PostDetail extends Component {
     });
   }
 
+  handleLikeSuccess() {
+    this.setState({
+      liked: false
+    });
+  }
+
   onEditClick() {
     this.setState({
       beingEdit: true
@@ -52,6 +72,29 @@ class PostDetail extends Component {
   onDeleteClick() {
     const { id } = this.props.match.params;
     this.props.deletePost(id, (path) => {
+      this.props.history.push(path);
+    });
+  }
+
+  toggleLike = () => {
+    
+    let localLiked = this.state.liked;
+    let localCount = this.state.count;
+  
+    localLiked = !localLiked;
+
+    if (localCount) localCount = localCount - 1;
+    else localCount = localCount + 1;
+
+    this.setState({ liked: localLiked });
+    this.setState({ count: localCount});
+
+  };
+
+    handleLikeStatus() {
+
+    const _id = this.props.post._id;
+    this.props.updatePostLikes( _id ,(path) => {
       this.props.history.push(path);
     });
   }
@@ -80,12 +123,25 @@ class PostDetail extends Component {
     );
   }
 
+  renderLikeCount(likes) {
+    
+    return (
+      <div className='text-blue'>
+          <span className="span-with-margin btn-like" 
+                  onClick={() => this.toggleLike()}>
+                  {this.state.liked === true ? 
+                  ( <AiFillLike/> ) : ( <AiOutlineLike /> )} </span> 
+          <span className="span-with-margin"> {this.state.count + likes.length} </span>
+       </div>
+    )
+  }
+
   renderUpdateAndDeleteButton() {
     if (this.props.allowChange) {
       return (
-        <div>
-          <button className="btn btn-primary btn-sm mr-1" onClick={this.onEditClick.bind(this)}>Edit</button>
-          <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteConfirmModal">Delete</button>
+        <div className='edit-delete-btns'>
+          <button className="btn-edit btn-sm mr-1" onClick={this.onEditClick.bind(this)}><FiEdit/></button>
+          <button className="btn-delete btn-sm" data-toggle="modal" data-target="#deleteConfirmModal"><FaTrashAlt/></button>
         </div>
       );
     }
@@ -114,8 +170,27 @@ class PostDetail extends Component {
     // Render the regular post detail page for reading
     return (
       <div className="post">
-        <PostBody post={this.props.post} />
+        
+        <PostBody post={this.props.post}        
+         history={this.props.history}
+         state={this.props.history.location.state}
+          action={this.props.history.action}
+        />
+         {this.renderLikeCount(this.props.post.likes)}
+         {this.handleLikeStatus()}
+       
+       
+      
+        {/* <Likes postId={this.props.match.params.id} />
+         <LikeNew
+         postId={this.props.match.params.id}
+         handleLike={this.toggleLike.bind(this)}
+         history={this.props.history}
+         state={this.props.history.location.state}
+         action={this.props.history.action}
+       /> */}
         {this.renderUpdateAndDeleteButton()}
+       
         <Comments postId={this.props.match.params.id} />
         <CommentNew
           postId={this.props.match.params.id}
@@ -138,4 +213,4 @@ function mapStateToProps({ posts, auth }, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, { fetchPost, checkAuthority, deletePost })(PostDetail);
+export default connect(mapStateToProps, { fetchPost, checkAuthority, deletePost, updatePostLikes })(PostDetail);

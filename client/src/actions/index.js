@@ -12,6 +12,7 @@ import {
   CREATE_POST,
   FETCH_POST,
   UPDATE_POST,
+  UPDATE_POST_LIKE,
   DELETE_POST,
 
   CHECK_AUTHORITY,
@@ -20,7 +21,9 @@ import {
   FETCH_COMMENTS,
 
   CREATE_LIKE,
-  FETCH_LIKES
+  FETCH_LIKES,
+  UPDATE_LIKES,
+  POST_ERROR
 
 } from './types';
 
@@ -280,6 +283,26 @@ export function updatePost({ _id, title, categories, content }, onEditSuccess, h
   }
 }
 
+export function updatePostLikes(_id, historyPush) {
+
+  return function(dispatch) {
+
+    axios.put(`${ROOT_URL}/posts/${_id}`, {
+      _id,
+    }, {
+      headers: {authorization: localStorage.getItem('token')},  // require auth
+    })
+      .then((response) => {
+        dispatch({
+          type: UPDATE_POST_LIKE,
+          payload: _id,
+        });
+        historyPush(`/posts/${_id}`);
+      });
+  }
+}
+
+
 export function deletePost(id, historyPush) {
 
   return function(dispatch) {
@@ -309,6 +332,7 @@ export function fetchPostsByUserId() {
       });
   }
 }
+
 
 /**
  * Blog Comments
@@ -365,10 +389,45 @@ export function fetchComments(postId) {
  * Blog Likes
  */
 
- export function createLike({ like, postId }, clearTextEditor, historyReplace) {
+
+// Add like
+export const addLike = id => async dispatch =>{
+  try {
+      const res= await axios.put(`${ROOT_URL}/posts/like/${id}`);
+      dispatch({
+          type:UPDATE_LIKES,
+          payload: {id,likes:res.data}
+      });
+  } catch (error) {
+      dispatch({
+          type: POST_ERROR,
+          payload: { msg: error.response.statusText, status: error.response.status }
+      });
+  }
+}
+
+
+// Remove like
+export const removeLike = id => async dispatch =>{
+  try {
+      const res= await axios.put(`${ROOT_URL}/posts/unlike/${id}`);
+      dispatch({
+          type:UPDATE_LIKES,
+          payload: {id,likes:res.data}
+      });
+  } catch (error) {
+      dispatch({
+          type: POST_ERROR,
+          payload: { msg: error.response.statusText, status: error.response.status }
+      });
+  }
+}
+
+
+ export function createLike({ postId }, historyReplace) {
 
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/likes/${postId}`, { content: like }, {
+    axios.post(`${ROOT_URL}/likes/${postId}`, {
       headers: {authorization: localStorage.getItem('token')},  // require auth
     })
       .then((response) => {  // If success, clear the text editor
@@ -377,7 +436,6 @@ export function fetchComments(postId) {
           payload: response.data,
         });
         dispatch(reset('like_new'));  // - Clear form value (data)
-        clearTextEditor();  // - Clear text editor (UI)
         historyReplace(`/posts/${postId}`, null);  // - clear alert message
       })
       .catch(({response}) => {  // If fail, render alert message
@@ -391,10 +449,10 @@ export function fetchComments(postId) {
         }
 
         // failure reason: comment is empty
-        historyReplace(`/posts/${postId}`, {
-          time: new Date().toLocaleString(),
-          message: response.data.message,
-        });
+        // historyReplace(`/posts/${postId}`, {
+        //   time: new Date().toLocaleString(),
+        //   message: response.data.message,
+        // });
       });
   }
 }

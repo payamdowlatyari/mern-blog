@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { verifyJwt, signoutUser } from '../actions';
+import { BsSearch } from "react-icons/bs";
 
 class Header extends Component {
 
@@ -16,6 +17,7 @@ class Header extends Component {
       // show a dropdown menu for authenticated user
       return (
         <div className="navbar-nav nav-item dropdown ml-auto">
+          <Link className="nav-link new-post" to={'/posts/new'}> Post + </Link>
           <a className="nav-link dropdown-toggle" href="http://example.com" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.username}</a>
           <div className="dropdown-menu" aria-labelledby="dropdown02">
             <Link className="dropdown-item" to="/my_posts">Your Posts</Link>
@@ -45,25 +47,19 @@ class Header extends Component {
     return (
       <nav className="navbar navbar-inverse bg-inverse navbar-toggleable-md fixed-top">
         <div className="container">
-          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon" />
-          </button>
-          
-          <Link className="navbar-brand" to="/">My Blog</Link>
-
-          <div className="collapse navbar-collapse" id="navbarsExampleContainer">
-          <form className="form-inline my-2 my-md-0">
-              <input className="form-control mr-sm-2" type="text" placeholder="Type here..." />
-              <button className="btn btn-secondary" type="submit">
-                Search
-              </button>
-            </form>
-            <div className="ml-auto">
-              {this.renderLinks()}
+          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" 
+          data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" 
+          aria-label="Toggle navigation"><span className="navbar-toggler-icon" /></button>
+          <Link className="navbar-brand" to="/">My Social Blog</Link>
+            <div className="collapse navbar-collapse" id="navbarsExampleContainer">
+               <form className="form-inline my-1 my-md-0">
+                    <input className="form-control" type="text" placeholder="Type here..." />
+                    <button className="btn btn-outline-secondary" type="submit"><BsSearch/></button>
+                </form>
+               <div className="ml-auto">{this.renderLinks()}</div>
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
     );
   }
 }

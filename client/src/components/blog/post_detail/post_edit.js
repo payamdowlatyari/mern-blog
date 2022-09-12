@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { updatePost } from '../../../actions';
 
+
 class PostEdit extends Component {
 
   componentDidMount() {
@@ -15,7 +16,8 @@ class PostEdit extends Component {
     const _id = this.props.post._id;
     categories = categories.toString();
 
-    this.props.updatePost({ _id, title, categories, content }, this.props.onEditSuccess, (path, state) => {
+    this.props.updatePost({ _id, title, categories, content },
+      this.props.onEditSuccess, (path, state) => {
       this.props.history.replace(path, state);
     });
   }

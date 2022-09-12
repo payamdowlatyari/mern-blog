@@ -113,6 +113,7 @@ exports.verifyJwt = function(req, res, next) {
   // Require auth
 
   res.send({
-    username: req.user.firstName + ' ' + req.user.lastName
+    username: req.user.firstName + ' ' + req.user.lastName,
+    userid: req.user._id
   });
 };
