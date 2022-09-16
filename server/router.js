@@ -49,14 +49,14 @@ module.exports = function(app) {
 
   app.get('/api/allow_edit_or_delete/:id', requireAuth, Blog.allowUpdateOrDelete);
 
-  // app.put('/api/posts/:id', requireAuth, Blog.updatePost);
+  app.put('/api/posts/:id', requireAuth, Blog.updatePost);
 
-  app.put('/api/posts/:id', requireAuth, Blog.updatePostLikes);
+  // app.put('/api/posts/:id', requireAuth, Blog.updatePostLikes);
 
 
-  app.put('/api/posts/like/:id', requireAuth, Blog.likePost);
+  app.put('/api/posts/like/:id', requireSignin, Blog.likePost);
 
-  app.put('/api/posts/unlike/:id', requireAuth, Blog.unlikePost);
+  app.put('/api/posts/unlike/:id',requireSignin, Blog.unlikePost);
 
   app.delete('/api/posts/:id', requireAuth, Blog.deletePost);
 
@@ -74,9 +74,9 @@ module.exports = function(app) {
    * Blog Like APIs
    */
 
-   app.post('/api/likes/:postId', requireAuth, Blog.createLike);
+  //  app.post('/api/likes/:postId', requireAuth, Blog.createLike);
 
-   app.get('/api/likes/:postId', Blog.fetchLikesByPostId);
+  //  app.get('/api/likes/:postId', Blog.fetchLikesByPostId);
 
 
 };

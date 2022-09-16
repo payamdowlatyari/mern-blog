@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updatePostLikes } from '../../../actions/index';
+import { updatePostLikes, addLike, removeLike, verifyJwt} from '../../../actions/index';
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 class PostBody extends Component {
 
+
   componentWillMount() {
-    if (this.props.authenticated) {  // if the user already signed in, navigate to '/posts'
+    this.props.verifyJwt();  // fetch username
+    if (this.props.authenticated && !this.props.user) {  // if the user already signed in, navigate to '/posts'
       this.props.history.replace('/posts');
+     
     }
   }
   renderTags(tags) {
@@ -15,6 +19,39 @@ class PostBody extends Component {
     });
   }
 
+  renderLikes(likes) {
+
+    console.log(this.props.verifyJwt())
+
+    let tempLikes = likes;
+
+    if (tempLikes.includes(this.props.post.authorId))
+        return <span className="btn-like span-with-margin"><AiFillLike/> </span>;
+    else 
+        return <span className="btn-like span-with-margin"><AiOutlineLike/> </span>;
+  }
+
+  handleLikeStatus() {
+
+  const _id = this.props.post._id;
+  let likes = this.props.post.likes;
+
+  const userid = this.props.post.authorId
+
+return <div>
+  <span onClick={() => this.props.addLike(_id, userid)}
+          className="span-with-margin btn-like">
+         <AiFillLike/> 
+          {' '}
+          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+        </span>
+        <span onClick={() => this.props.removeLike(_id, userid)}
+          className="span-with-margin btn-like">
+        <AiOutlineLike/> 
+        </span>
+</div>
+    
+}
   // handleLikeStatus() {
 
   //   const _id = this.props.post._id;
@@ -48,13 +85,14 @@ class PostBody extends Component {
       <div className='post-card'>
         <h3>{post.title}</h3>
         <div className='post-tags'>{this.renderTags(post.categories)}</div> 
-
+        <div className='post-tags'>{this.renderLikes(post.likes)}</div> 
         <div className='post-text'>
               <div className="text-justify" dangerouslySetInnerHTML={{ __html: post.content }} />
        
         <div className='post-details'>
             <span className="span-with-margin text-black"> {post.authorName}</span>
              <span className="span-with-margin text-sm-grey">{new Date(post.time).toLocaleString()}</span>
+             {/* <span> {this.handleLikeStatus()} </span> */}
         </div>
         </div>
 
@@ -63,8 +101,8 @@ class PostBody extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(_state, ownProps) {
   return { initialValues: ownProps.post };
 }
 
-export default connect(mapStateToProps, { updatePostLikes })(PostBody);
+export default connect(mapStateToProps, { updatePostLikes, addLike, removeLike, verifyJwt })(PostBody);

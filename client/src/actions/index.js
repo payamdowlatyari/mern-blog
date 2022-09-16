@@ -3,27 +3,21 @@ import { reset } from 'redux-form';
 import {
   AUTH_USER,
   UNAUTH_USER,
-
   FETCH_PROFILE,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
-
   FETCH_POSTS,
   CREATE_POST,
   FETCH_POST,
   UPDATE_POST,
   UPDATE_POST_LIKE,
   DELETE_POST,
-
   CHECK_AUTHORITY,
-
   CREATE_COMMENT,
   FETCH_COMMENTS,
-
   CREATE_LIKE,
   FETCH_LIKES,
-  UPDATE_LIKES,
-  POST_ERROR
+  UPDATE_LIKES
 
 } from './types';
 
@@ -333,7 +327,6 @@ export function fetchPostsByUserId() {
   }
 }
 
-
 /**
  * Blog Comments
  */
@@ -391,38 +384,79 @@ export function fetchComments(postId) {
 
 
 // Add like
-export const addLike = id => async dispatch =>{
-  try {
-      const res= await axios.put(`${ROOT_URL}/posts/like/${id}`);
-      dispatch({
-          type:UPDATE_LIKES,
-          payload: {id,likes:res.data}
-      });
-  } catch (error) {
-      dispatch({
-          type: POST_ERROR,
-          payload: { msg: error.response.statusText, status: error.response.status }
-      });
-  }
-}
+export function addLike(id, likes, historyPush) {
 
+   return function (dispatch) {
+      axios.put(`${ROOT_URL}/posts/like/${id}`, { 
+        likes,
+        }, {
+          headers: {authorization: localStorage.getItem('token')},
+        }).then((res) => {
+      dispatch({
+          type: UPDATE_LIKES,
+          payload: res.data,
+      });
+      historyPush(`/posts/${id}`);
+      // dispatch(reset('fetch_posts'));  // - Clear form value (data)
+      // historyReplace(`/posts/${id}`, null);  // - clear alert message
+    })
+    // .catch(({res}) => {  // If fail, render alert message
+
+      // failure reason: un-authenticated
+      // if (!res) {
+      //   return historyReplace(`/posts/${id}`, {
+      //     // time: new Date().toLocaleString(),
+      //     message: 'You must sign in before you can like a post.',
+      //   });
+      // }
+      // .catch(({res}) => { 
+          // failure reason: un-authenticated
+          // if (!res.data.message) {
+          //   return historyReplace(`/posts/${postId}`;
+          // }
+      // });
+    }
+}
 
 // Remove like
-export const removeLike = id => async dispatch =>{
-  try {
-      const res= await axios.put(`${ROOT_URL}/posts/unlike/${id}`);
+export function removeLike (id, likes, historyPush) { 
+  
+  return function(dispatch) {
+  
+      axios.put(`${ROOT_URL}/posts/unlike/${id}`, {
+        likes,
+    }, {  
+      headers: {authorization: localStorage.getItem('token')},
+    })
+    .then((res) => {
       dispatch({
           type:UPDATE_LIKES,
-          payload: {id,likes:res.data}
+          payload: res.data,
       });
-  } catch (error) {
-      dispatch({
-          type: POST_ERROR,
-          payload: { msg: error.response.statusText, status: error.response.status }
-      });
+      historyPush(`/posts/${id}`);
+      // dispatch(reset('fetch_posts'));  // - Clear form value (data)
+      // historyReplace(`/posts/${id}`, null);  // - clear alert message
+    })
+    // .catch(({res}) => {  // If fail, render alert message
+
+      // failure reason: un-authenticated
+      // if (!res) {
+      //   return historyReplace(`/posts/${id}`, {
+      //     // time: new Date().toLocaleString(),
+      //     message: 'You must sign in before you can like a post.',
+      //   });
+      // }
+      // .catch(({res}) => { 
+      // // failure reason: un-authenticated
+      // if (!res.data.message) {
+      //   return historyReplace(`/posts/${postId}`, {
+      //     message: 'You must sign in before you can like a post.',
+      //   });
+      // }
+
+    // });
   }
 }
-
 
  export function createLike({ postId }, historyReplace) {
 
@@ -435,7 +469,7 @@ export const removeLike = id => async dispatch =>{
           type: CREATE_LIKE,
           payload: response.data,
         });
-        dispatch(reset('like_new'));  // - Clear form value (data)
+        dispatch(reset('fetch_posts'));  // - Clear form value (data)
         historyReplace(`/posts/${postId}`, null);  // - clear alert message
       })
       .catch(({response}) => {  // If fail, render alert message

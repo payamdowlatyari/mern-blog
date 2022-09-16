@@ -5,12 +5,12 @@ import NoMatch from '../../nomatch';
 import PostBody from './post_body';
 import Comments from './comments';
 import CommentNew from './comment_new';
-import Likes from './likes';
-import LikeNew from './like_new';
+// import Likes from './likes';
+// import LikeNew from './like_new';
 
 import PostEdit from './post_edit';
 
-import { fetchPost, checkAuthority, deletePost, updatePostLikes } from '../../../actions';
+import { fetchPost, checkAuthority, deletePost, updatePostLikes, addLike, removeLike, verifyJwt } from '../../../actions';
 import { FaTrashAlt } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
@@ -46,6 +46,12 @@ class PostDetail extends Component {
       this.props.fetchPost(id);
       
     }
+
+    if (!this.props.user) {
+      this.props.verifyJwt();
+      
+    }
+
 
     // Check whether current authenticated user has authority to make change to this post
     this.props.checkAuthority(id);
@@ -91,12 +97,34 @@ class PostDetail extends Component {
 
   };
 
-    handleLikeStatus() {
-
+    handleLikeStatus(likes) {
+      if (this.props.allowChange) {
     const _id = this.props.post._id;
-    this.props.updatePostLikes( _id ,(path) => {
-      this.props.history.push(path);
-    });
+    // let likes = this.props.post.likes;
+    // this.props.updatePostLikes( _id ,(path) => {
+    //   this.props.history.push(path);
+    // });
+
+return <span>{this.onEditClick.bind(this)}
+    <button
+            onClick={() => this.props.addLike(_id)}
+            
+            type='button'
+            className='btn btn-light'
+          >
+            like
+            {' '}
+            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+          </button>
+          <button
+            onClick={() => this.props.removeLike(_id)}
+            type='button'
+            className='btn btn-light'
+          >
+           unlike
+          </button>
+</span>
+      }
   }
 
   renderDeleteConfirmModal() {  // used for delete confirmation
@@ -124,13 +152,17 @@ class PostDetail extends Component {
   }
 
   renderLikeCount(likes) {
-    
+    // const _id = this.props.post._id;
     return (
       <div className='text-blue'>
           <span className="span-with-margin btn-like" 
                   onClick={() => this.toggleLike()}>
                   {this.state.liked === true ? 
-                  ( <AiFillLike/> ) : ( <AiOutlineLike /> )} </span> 
+                  ( <AiFillLike/> 
+                  ) : 
+                  ( <AiOutlineLike/> 
+                  )} 
+            </span> 
           <span className="span-with-margin"> {this.state.count + likes.length} </span>
        </div>
     )
@@ -173,12 +205,15 @@ class PostDetail extends Component {
         
         <PostBody post={this.props.post}        
          history={this.props.history}
+         onEditSuccess={this.handleEditSuccess.bind(this)}
          state={this.props.history.location.state}
+         user={this.props}
           action={this.props.history.action}
+          
         />
-         {this.renderLikeCount(this.props.post.likes)}
-         {this.handleLikeStatus()}
-       
+         {/* {this.renderLikeCount(this.props.post.likes)} */}
+         
+         {/* {this.handleLikeStatus(this.props.post.likes)} */}
        
       
         {/* <Likes postId={this.props.match.params.id} />
@@ -213,4 +248,4 @@ function mapStateToProps({ posts, auth }, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, { fetchPost, checkAuthority, deletePost, updatePostLikes })(PostDetail);
+export default connect(mapStateToProps, { fetchPost, checkAuthority, deletePost, updatePostLikes, addLike, removeLike, verifyJwt })(PostDetail);

@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
   title: String,
   categories:  {type: Array, "default" : []},
-  likes: {type: Array, "default" : []},
+  likes: [
+    {type: Schema.Types.ObjectId, ref:"user"}
+  ],
   content: String,  // html
   authorId: String,
   authorName: String,

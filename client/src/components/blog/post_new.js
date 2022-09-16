@@ -61,7 +61,7 @@ class PostNew extends Component {
           <Field name="title" component={this.renderInput} type="text" label="Title:" placeholder="Enter your title" required={true} />
           <Field name="categories" component={this.renderInput} type="text" label="Categories:" placeholder="Enter categories, use ',' to separate" required={true} />
           <Field name="content" component={this.renderTextEditor} label="Content:" />
-          <button action="submit" className="btn btn-success btn-block">Publish</button>
+          <button action="submit" className="btn btn-success btn-sm">Publish</button>
         </form>
       </div>
     );

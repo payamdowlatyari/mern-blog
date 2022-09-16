@@ -39,14 +39,14 @@ ReactDOM.render(
         <Header />
         <div className="container" id="content">
           <Switch>
-            <Route exact path='/' component={Welcome} />
+            <Route exact path='/' component={RequireAuth(Welcome)} />
             <Route path='/signin' component={Signin} />
             <Route path='/signup' component={Signup} />
             <Route path="/profile" component={RequireAuth(Profile)} />
             <Route path="/settings" component={RequireAuth(Settings)} />
             <Route exact path='/posts' component={PostList} />
             <Route path='/posts/new' component={RequireAuth(PostNew)} />
-            <Route path='/posts/:id' component={PostDetail} />
+            <Route path='/posts/:id' component={RequireAuth(PostDetail)} />
             <Route path='/my_posts' component={RequireAuth(PostMine)} />
             <Route component={NoMatch} />
           </Switch>

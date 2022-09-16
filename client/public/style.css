@@ -41,7 +41,7 @@ h5{
 -------------------------------------------------- */
 
 #content {
-  margin-top: 80px;
+  margin-top: 100px;
   margin-bottom: 50px;
   
 }
@@ -80,10 +80,17 @@ h5{
 
 .text-below-form{
   text-align: center;
+  color: #000;
 }
 
 .sign-in-up{
-  color: #118ab2;
+  color: #ffffff !important;
+  opacity: 0.8;
+}
+
+.sign-in-up:hover{
+  color: #ffffff !important;
+  opacity: 1;
 }
 
 .span-with-margin {
@@ -134,7 +141,7 @@ h5{
 }
 
 a {
-  color: #242830;
+  color: #9199a1;
   opacity: 0.9;
 }
 
@@ -148,7 +155,7 @@ a:hover {
 } 
 
 .badge-info {
-  background-color: #637081;
+  background-color: #738290;
 }
 
 .btn-outline-secondary{
@@ -175,21 +182,23 @@ a:hover {
 }
 
 .sign-in{
+  color: #e5e5e5 !important;
   padding: 10px;
-  font-size:medium;
+  font-size:small;
 }
 
 .sign-up{
+  color: #e5e5e5 !important;
   padding: 10px;
-  font-size: medium;
+  font-size: small;
 }
 
 .sign-in:hover {
-  color: #e5e5e5;
+  color: #ffffff !important;
 }
 
 .sign-up:hover{
-  color: #e5e5e5;
+  color: #ffffff !important;
 }
 
 .cel-title {

@@ -24,7 +24,7 @@ class Signin extends Component {
 
   renderField = (field) => (
     <fieldset className="form-group">
-      { /*<label>{field.label}</label>*/ }
+       <label>{field.label}</label>
       <input className="form-control" placeholder={field.label} {...field.input} type={field.type} required='required' />
     </fieldset>
   );

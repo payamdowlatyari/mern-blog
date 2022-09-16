@@ -71,7 +71,7 @@ exports.signup = function(req, res, next) {
 exports.signin = function(req, res, next) {
 
   // Require auth
-
+  console.log(req.user);
   // User has already had their email and password auth'd (through passport middleware [LocalStrategy])
   // We just need to give them a token
   res.send({
@@ -80,26 +80,26 @@ exports.signin = function(req, res, next) {
   });
 };
 
-/*
+
 // https://github.com/jaredhanson/passport-local/issues/4
 
-exports.signin = function(req, res, next) {
-  passport.authenticate('local', { session: false }, function(err, user, info) {
+// exports.signin = function(req, res, next) {
+//   passport.authenticate('local', { session: false }, function(err, user, info) {
 
-    // console.log(err);
-    // console.log(user);
-    // console.log(info);  // info contains customized error message
+//     // console.log(err);
+//     // console.log(user);
+//     // console.log(info);  // info contains customized error message
 
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(401).send(info);
-    }
-    return res.send({ token: tokenForUser(user)});
-  })(req, res, next);
-};
-*/
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!user) {
+//       return res.status(401).send(info);
+//     }
+//     return res.send({ token: tokenForUser(user)});
+//   })(req, res, next);
+// };
+
 
 /**
  * Verify if the JWT in local storage is valid

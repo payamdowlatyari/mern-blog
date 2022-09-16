@@ -10,7 +10,7 @@ export const CREATE_POST = 'create_post';
 export const FETCH_POST = 'fetch_post';
 export const UPDATE_POST = 'update_post';
 export const UPDATE_POST_LIKE = 'update_post_like';
-export const UPDATE_LIKES = 'UPDATE_LIKES';
+export const UPDATE_LIKES = 'update_likes';
 
 export const DELETE_POST = 'delete_post';
 
@@ -22,4 +22,3 @@ export const FETCH_COMMENTS = 'fetch_comments';
 export const CREATE_LIKE = 'create_like';
 export const FETCH_LIKES = 'fetch_likes';
 
-export const POST_ERROR = 'POST_ERROR';

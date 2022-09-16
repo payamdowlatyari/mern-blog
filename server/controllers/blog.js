@@ -266,56 +266,95 @@ exports.updatePost = function(req, res, next) {
 };
 
 
-//@route    PUT api/posts/like/:id
-//@desc     Like a post
-//@access   private
-exports.likePost = async function(req, res, next) {
+/**
+ * Like a post
+ * PUT api/posts/like/:id
+ * private
+ * 
+ * @param req
+ * @param res
+ * @param next
+ */
 
-  try {  
-      const post= await Post.findById(req.params.id);
-      //check if the post is already liked 
-      if(post.likes.filter(like=>like.user.toString()===req.user.id).length > 0){
-          return res.status(400).json({msg: "Post already liked"});
-      }
+ exports.likePost = function(req, res, next) {
 
+   const _id = req.params.id;
+   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No post with id: ${_id}`);
+
+   // Find the post by post ID
+   Post.findByIdAndUpdate({
+     _id
+   }, function(err, post) {
+
+    if (err) {
+      console.log(err);
+      return res.status(422).json({
+        message: 'Error! Could not retrieve the post with the given post ID.'
+      });
+    }
+
+     console.log(req.user.id);  
+
+
+    //  if(post.likes.filter(like=>like.user==req.user.id).length > 0){
+    //   return res.status(400).json({message: "Post already liked"});
+    //  }
+      
       post.likes.unshift({user: req.user.id});
-      await post.save();
 
-    // Save post
-    res.json(post.likes);
+      post.save(function(err, post) {  // callback function
+        if (err) {
+          return next(err);
+        }
+        res.json(post);  // return the updated post
+      });
 
-  } catch (error) {
-      console.error(error.message);
-      res.status(500).send("Server Error");
-  }
-  
+    });
 }
 
-//@route    PUT api/posts/unlike/:id
-//@desc     Unlike a post
-//@access   private
-exports.unlikePost = async function(req, res, next) {
+/**
+ * Unlike a post
+ * PUT api/posts/unlike/:id
+ * private
+ * 
+ * @param req
+ * @param res
+ * @param next
+ */
 
-  try {   
-      const post= await Post.findById(req.params.id);
-      //check if the post is already liked 
-      if(post.likes.filter(like=>like.user.toString()===req.user.id).length === 0){
-          return res.status(400).json({msg: "Post has not been liked yet"});
-      }
+exports.unlikePost = function(req, res, next) {
+
+  const _id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No post with id: ${_id}`);
+
+  Post.findByIdAndUpdate({
+    _id
+  }, function(err, post) {
+
+    if (err) {
+      console.log(err);
+      return res.status(422).json({
+        message: 'Error! Could not retrieve the post with the given post ID.'
+      });
+    }
+
+      // //check if the post is already liked 
+      // if(post.likes.filter(like=>like.user==req.user.id).length === 0){
+      //     return res.status(400).json({message: "Post has not been liked yet"});
+      // }
 
       // get remove index
-      const removeIndex= post.likes.map(like=>like.user.toString()).indexOf(req.user.id);
-
+      const removeIndex = post.likes.map(like=>like.user.toString()).indexOf(req.user.id);
       post.likes.splice(removeIndex,1);
 
-      await post.save();
+      post.save(function(err, post) {  // callback function
+        if (err) {
+          return next(err);
+        }
+        res.json(post);  // return the updated post
+      });
 
-      res.json(post.likes);
-
-  } catch (error) {
-      console.error(error.message);
-      res.status(500).send("Server Error");
-  }
+  });
 }
 
 /**
